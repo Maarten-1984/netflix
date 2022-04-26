@@ -33,6 +33,17 @@ export async function getServerSideProps({
   res: NextApiResponse
 }) {
   const { token, issuer } = await redirectUser(req)
+
+  if (!issuer) {
+    return {
+      props: {},
+      redirect: {
+        desitination: "/login",
+        permanent: false,
+      },
+    }
+  }
+
   const favourites = token ? await getFavouriteVideos(token, issuer) : []
 
   return {

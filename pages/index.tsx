@@ -65,6 +65,15 @@ export async function getServerSideProps({
   const largeVideos = await getVideos("lg", "disney")
   const mediumVideos = await getPopularVideos("md")
 
+  if (!issuer) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    }
+  }
+
   const watchedVideos = token ? await getAllWatchedVideos(token, issuer) : []
 
   return {
